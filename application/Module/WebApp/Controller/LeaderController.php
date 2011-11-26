@@ -40,6 +40,13 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
      * @Inject CoreApi\Service\UserService
      */
 	private $userService;
+	
+	
+	
+	// Todo UseCase:
+	/*
+	 * Inject UserGroup - Service
+	 */
 
 	
 	
@@ -102,7 +109,35 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 		$this->view->managers = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MANAGER));		
 		$this->view->leaders  = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_NORMAL));
 		$this->view->guests   = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_GUEST));
+		
+		
+		// Todo UseCase:
+		/*
+		 * Add a list of suggested User to be Invited to this camp.
+		 * 
+		 * For User-Camps, suggest friends of the owner.
+		 * For Group-Camps, suggest members of the group.
+		 */ 
+		
 	}
 	
+	
+	
+	// Todo UseCase:
+	/*
+	 * Add action to invite User to Camp
+	 */
+	
+	
+	// Todo UseCase:
+	/*
+	 * Add action to kick a User from Camp
+	 */
+	
+	
+	// Todo UseCase:
+	/*
+	 * Add action(s) to search for User which can then be invited
+	 */
 }
 
