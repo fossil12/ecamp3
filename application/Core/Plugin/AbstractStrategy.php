@@ -28,7 +28,8 @@
 
 namespace Core\Plugin;
  
-abstract class AbstractStrategy {
+abstract class AbstractStrategy 
+{
 
 	/**
 	 * @var \Doctrine\ORM\EntityManager
@@ -42,8 +43,10 @@ abstract class AbstractStrategy {
 	
 	/**
 	 * Set the plugin object.
+	 * @param \Core\Entity\Plugin $plugin
 	 */
-	public function setPlugin(\Core\Entity\Plugin $plugin){
+	public function setPlugin(\Core\Entity\Plugin $plugin)
+	{
 		$this->plugin = $plugin;
 	}
 	
@@ -54,13 +57,14 @@ abstract class AbstractStrategy {
 		return $this->plugin;
 	}
 	
+	/**
+	 * Get the plugin name
+	 */
+	public function getPluginName(){
+		return $this->pluginName;
+	}
 	
 	/* ***************************************** */
-	/* don't know whether we need the view here. 
-	   It was here in the doctrine example, but I couldn't
-	   figure out why.
-	   Let's leave it here until the full plugin stack has
-	   been implemented */
 	   
 	protected $view;
 	
@@ -76,8 +80,15 @@ abstract class AbstractStrategy {
 	/**
 	 * @return \Zend_View_Interface
 	 */
-	public function getView(){
+	public function getView()
+	{
 		return $this->view;
+	}
+	
+	public function renderFrontend(){
+	}
+	
+	public function renderBackend(){
 	}
 
 }

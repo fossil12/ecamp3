@@ -29,14 +29,15 @@ namespace Core\Plugin\Header;
 class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPluginStrategy {
 	
 	/**
-	 * Core\Plugin\Header\Entity\Header $plugin
+	 * @var \Core\Plugin\Header\Entity\Header $plugin
 	 */
-	private $header;
+	protected $header;
 	
-	public $pluginName = "Header";
+	protected $pluginName = "Header";
 	
 	/** construct */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Core\Entity\Plugin $plugin) {
+	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Core\Entity\Plugin $plugin)
+	{
 		$this->em = $em;
 		$this->view = $view;
 		$this->plugin = $plugin;
@@ -69,38 +70,21 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	}
 	
 	/**
-	 * Set the plugin object.
+	 * Set the HeaderPlugin object.
+	 * @param \Core\Plugin\Header\Entity\Header $header
 	 */
-	public function setHeader($header){
+	public function setHeader($header)
+	{
 		$this->header = $header;
 	}
-	public function getHeader(){
+	
+	/**
+	 * Get the HeaderPlugin Object
+	 * @return \Core\Plugin\Header\Entity\Header
+	 */
+	public function getHeader()
+	{
 		return $this->header;
-	}
-
-	/**
-	 * Renders this strategy. This method will be called when the user
-	 * displays the site.
-	 *
-	 * @return string
-	 */
-	public function renderFrontend(){
-		return $this->header->getText();
-	}
-
-	/**
-	 * Renders the backend of this plugin. This method will be called when
-	 * a user tries to reconfigure this plugin instance.
-	 *
-	 * Most of the time, this method will return / output a simple form which in turn
-	 * calls some controllers.
-	 *
-	 * @return string
-	 */
-	public function renderBackend(){
-		$this->view->header = $this->header;
-		$this->view->plugin = $this->plugin;
-		return $this->view->render("../Plugin/".$this->pluginName."/views/edit.phtml");
 	}
 	
 }
