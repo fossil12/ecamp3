@@ -31,6 +31,15 @@
 </tal:block>
 <div class="clear" />
 
+<h2>Invite:</h2>
+
+<tal:block repeat="user twoUser">
+	<div>
+		<span metal:use-macro="global/singleuser.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
+		<a class="button positive" tal:attributes="href helper:campurl(camp, array('controller' => 'leader', 'action' => 'invite', 'invitedUser' => user.getId(), 'role' => 50), 'camp')">Invite</a>
+	</div>
+</tal:block>
+<div class="clear" />
 
 <!-- 
 	Todo UseCase:

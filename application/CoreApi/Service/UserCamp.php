@@ -11,21 +11,29 @@ class UserCamp extends ServiceAbstract
 	 */
 	protected $em;
 	
+   /**
+	 * @var \CoreApi\Service\User
+	 * @Inject \CoreApi\Service\User
+	 */
+	protected $userService;
+	
     
-    public function index()
-    {
-    	throw new \Exception("Not Implemented Exception");
-    }
+   public function index()
+   {
+   	throw new \Exception("Not Implemented Exception");
+   }
     
     
-    protected function create()
-    {
-    // Todo UseCase:
-    	/*
-    * create new usercamp entity
-    	* (This is to invite a user)
-    */
-    }
+   protected function create(\Core\Entity\User $user,\Core\Entity\Camp $camp)
+   {
+    
+    	$userCamp = new \Core\Entity\UserCamp($user, $camp);
+
+		$this->em->persist($userCamp);
+
+		return $userCamp;
+
+   }
 	
 	public function get($user, $camp)
 	{
@@ -48,15 +56,21 @@ class UserCamp extends ServiceAbstract
 		 */
 	}
 	
-	protected function invite($user, $camp, $role)
+	protected function invite(\Core\Entity\User $user,\Core\Entity\Camp $camp, $role)
 	{
-		// Todo UseCase:
+
+		// Todo:
 		/*
-		 * authenticated User invites $user to $camp with $role
+		 *	validate rode
 		 */
+
+		$userCamp = $this->create($user, $camp);
+		$userCamp->setRequestedRole($role);
+		$userCamp->acceptRequest($this->userService->get());
+
 	}
 	
-	protected function acceptRequest($usercamp)
+	protected function acceptRequest($userCamp)
 	{
 		// Todo UseCase:
 		/*
@@ -64,12 +78,11 @@ class UserCamp extends ServiceAbstract
 		 */
 	}
 	
-	protected function acceptInvitation($usercamp)
+	protected function acceptInvitation(\Core\Entity\UserCamp $userCamp)
 	{
-		// Todo UseCase:
-		/*
-		 * authenticated User accepts invitation
-		 */
+		
+		$userCamp->acceptInvitation();
+
 	}
     
     public function delete($usergroup)
@@ -80,9 +93,7 @@ class UserCamp extends ServiceAbstract
     	 * (This is to kick somebody)
     	 */
     }
-	
-	
-	
+
 	/**
 	* Setup ACL. Is used for manual calls of 'checkACL' and for automatic checking
 	* @see    CoreApi\Service\ServiceAbstract::_setupAcl()
@@ -90,7 +101,7 @@ class UserCamp extends ServiceAbstract
 	*/
 	protected function _setupAcl()
 	{
-		
+		$this->_acl->allow('camp_owner', $this, 'invite');
 	}
 	
 }

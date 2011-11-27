@@ -36,17 +36,16 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
     private $loginRepo;
 	
 	/**
-     * @var CoreApi\Service\UserService
-     * @Inject CoreApi\Service\UserService
+     * @var CoreApi\Service\User
+     * @Inject CoreApi\Service\User
      */
 	private $userService;
 	
-	
-	
-	// Todo UseCase:
-	/*
-	 * Inject UserGroup - Service
+	/**
+	 * @var CoreApi\Service\UserCamp
+	 * @Inject CoreApi\Service\UserCamp
 	 */
+	private $userCamp;
 
 	
 	
@@ -109,8 +108,17 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 		$this->view->managers = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MANAGER));		
 		$this->view->leaders  = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_NORMAL));
 		$this->view->guests   = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_GUEST));
-		
-		
+
+		$this->view->twoUser = $this->em->getRepository("Core\Entity\User")->findAll();
+
+		/*foreach ($allUser as $user) {
+			echo $user->getId();
+			echo "...";
+		}
+
+		die(); */
+
+
 		// Todo UseCase:
 		/*
 		 * Add a list of suggested User to be Invited to this camp.
@@ -127,6 +135,18 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 	/*
 	 * Add action to invite User to Camp
 	 */
+	public function inviteAction()
+	{
+		
+		$invitedUserId = $this->getRequest()->getParam("invitedUser");
+		$invitedUser = $this->userService->get($invitedUserId);
+		$role = $this->getRequest()->getParam("role");
+
+		$this->userCamp->invite($invitedUser, $this->camp, $role);
+
+		$this->_forward('index');
+
+	}
 	
 	
 	// Todo UseCase:

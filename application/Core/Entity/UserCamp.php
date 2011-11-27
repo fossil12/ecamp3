@@ -140,6 +140,11 @@ class UserCamp extends BaseEntity
 		return $this->user;
 	}
 
+	public function setRole($role)
+	{
+		$this->role = $role;
+	}
+
 	/**
 	 * @Public:Method()
 	 * @return int
@@ -161,6 +166,7 @@ class UserCamp extends BaseEntity
 	{
 		$this->requestedRole = $role; return $this;
 	}
+
 
 	/**
 	 * True if the role is member or manager
